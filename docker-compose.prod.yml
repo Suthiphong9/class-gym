@@ -1,0 +1,37 @@
+services:
+  app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+
+    container_name: class-gym-app-prod
+
+    ports:
+      - "5000:5000"
+
+    depends_on:
+      - mysql
+
+    env_file:
+      - .env
+
+    restart: unless-stopped
+
+
+
+  mysql:
+    image: mysql:8.4
+
+    container_name: class-gym-mysql-prod
+
+    restart: unless-stopped
+
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+
+    volumes:
+      - mysql_prod_data:/var/lib/mysql
+
+volumes:
+  mysql_prod_data:

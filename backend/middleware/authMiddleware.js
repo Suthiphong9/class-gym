@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-
+const env = require("../config/env")
 const authMiddleware = (req, res, next) => {
   try {
     // เรียกใช้ Autorization <Bearer> token
@@ -16,7 +16,7 @@ const authMiddleware = (req, res, next) => {
     const token = authHeader.split(" ")[1];
 
     // ตรวจสอบว่า token ตรงกันไหม
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, env.jwtSecret);
 
     // เก็บข้อมูลไว้ใน req.user
     req.user = decoded;

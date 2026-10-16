@@ -1,29 +1,42 @@
 services:
-
   app:
     build:
       context: ./backend
       dockerfile: Dockerfile
+
     container_name: class-gym-app
+
     ports:
       - "5000:5000"
+
     volumes:
       - ./backend:/app
       - /app/node_modules
+
     depends_on:
       - mysql
+
     env_file:
       - .env
+    
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
 
   mysql:
     image: mysql:8.4
+
     container_name: class-gym-mysql
+
     restart: unless-stopped
+
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: class_gym
+
     ports:
       - "3307:3306"
+      
     volumes:
       - mysql_data:/var/lib/mysql
 
